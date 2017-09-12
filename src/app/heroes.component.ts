@@ -32,6 +32,14 @@ export class HeroesComponent {
       });
   }
 
+  delete(hero: Hero): void {
+    this.heroService.delete(hero.id).then(() => {
+      this.heroes = this.heroes.filter(h => h.id !== hero.id);
+      if (this.selectedHero && this.selectedHero.id === hero.id) {
+        this.selectedHero = null;
+      }
+    });
+  }
 
   goToDetail(): void {
     this.router.navigate(['/detail', this.selectedHero.id]);

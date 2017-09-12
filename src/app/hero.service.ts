@@ -38,6 +38,14 @@ export class HeroService {
     return Promise.reject(error.message || error);
   }
 
+  delete(id: Number): Promise<void> {
+    const url = this.getHeroUrl(id);
+    return this.http.delete(url, { headers: this.headers })
+      .toPromise()
+      .then(() => null)
+      .catch(this.handleError);
+  }
+
   updateHero(hero: Hero): Promise<Hero> {
     const url = this.getHeroUrl(hero.id);
     return this.http.put(url, JSON.stringify(hero), {
