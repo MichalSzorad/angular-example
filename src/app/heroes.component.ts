@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
 
@@ -14,7 +16,11 @@ export class HeroesComponent {
   selectedHero: Hero;
   heroes: Hero[];
 
-  constructor(private heroSerive: HeroService) {
+  constructor(private heroSerive: HeroService, private router: Router) {
+  }
+
+  goToDetail(): void {
+    this.router.navigate(['/detail', this.selectedHero.id]);
   }
 
   onSelect(hero: Hero): void {
