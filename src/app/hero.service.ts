@@ -10,6 +10,7 @@ import { HEROES } from './mock-heroes';
 export class HeroService {
 
   private heroesUrl = 'api/heroes';
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private http: Http) {
   }
@@ -28,6 +29,15 @@ export class HeroService {
   handleError(error: any): Promise<any> {
     console.log('An error occured when fetching heroes', error);
     return Promise.reject(error.message || error);
+  }
+
+  updateHero(hero: Hero): Promise<Hero> {
+    const url = this.getHeroUrl(hero.id);
+    return this.http.put(url, JSON.stringify(hero), {
+      headers: this.headers
+    }).toPromise()
+      .then(() => hero)
+      .catch(this.handleError);
   }
 
   getHero(id: Number): Promise<Hero> {
