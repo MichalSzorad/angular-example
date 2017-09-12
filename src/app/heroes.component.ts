@@ -16,8 +16,22 @@ export class HeroesComponent {
   selectedHero: Hero;
   heroes: Hero[];
 
-  constructor(private heroSerive: HeroService, private router: Router) {
+  constructor(private heroService: HeroService, private router: Router) {
   }
+
+  add(name: string): void {
+    name = name.trim();
+    if (name.length === 0) {
+      return;
+    }
+
+    this.heroService.create(name)
+      .then(hero => {
+        this.heroes.push(hero);
+        this.selectedHero = null;
+      });
+  }
+
 
   goToDetail(): void {
     this.router.navigate(['/detail', this.selectedHero.id]);
@@ -28,7 +42,7 @@ export class HeroesComponent {
   }
 
   getHeroes(): void {
-    this.heroSerive.getHeros().then(heroes => this.heroes = heroes);
+    this.heroService.getHeros().then(heroes => this.heroes = heroes);
   }
 
   ngOnInit(): void {
